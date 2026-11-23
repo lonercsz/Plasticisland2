@@ -187,7 +187,7 @@ async function loop(){while(!G.over){const i=G.cur,p=G.p[i];G.turn++;G.ph=0;draw
   if(p.h)await new Promise(r=>G.nx=r);else await cpu(i);if(G.over)break;G.ph=5;await wait(200);G.ph=6;fin(i);await trim(i);G.cur=1-i}draw();if(doc)modal(G.over,['Jugar otra vez']).then(setup)}
 // ===== INTERFAZ =====
 const PH=['Robo','Espera','Main 1','Batalla','Main 2','Mant.','Final'];
-const IMG='img/',IMGN={},NOIMG=new Set();// IMG: carpeta de imágenes. IMGN: excepciones, por ejemplo {'Mono loco':'img/mono_loco.jpg'}
+const IMG='imagenes/',IMGN={},NOIMG=new Set();// IMG: carpeta de imágenes. IMGN: excepciones, por ejemplo {'Mono loco':'img/mono_loco.jpg'}
 const imgSrc=n=>IMGN[n]||IMG+n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.jpg';
 const im=c=>{const s=imgSrc(c.n);return NOIMG.has(s)?'':'<img src="'+s+'" alt="" onerror="NOIMG.add(this.getAttribute(\'src\'));this.remove()">'};
 function tile(c,z,i){const f=z!=='h',cl='c '+c.k+(f&&c.pos==='d'?' dd':'')+(G.sel===c?' sel':'')+(G.pk&&G.pk.L.includes(c)?' tg':'');
