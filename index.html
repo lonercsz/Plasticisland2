@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Plastic Island</title><style>
+*{box-sizing:border-box;margin:0}body{--w:min(70px,calc((100vw - 44px)/5));background:#0e2433 url('imagenes/fondo-tablero.jpg') center/cover no-repeat fixed;color:#f2ecd8;font:12px system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column;gap:3px;padding:env(safe-area-inset-top) 4px env(safe-area-inset-bottom)}
+.bar{display:flex;gap:6px;align-items:center;font-size:11px;background:#07141dcc;border-radius:6px;padding:2px 4px}.eb{flex:1;height:12px;background:#07141d;border-radius:6px;overflow:hidden}.eb i{display:block;height:100%;background:#2ec4b6}.eb.red i{background:#e63946}
+.row{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;align-items:center;min-height:calc(var(--w)*1.33 + 6px);background:#143247cc;border-radius:6px;padding:2px}.row.f{flex:1}
+.c{width:var(--w);height:calc(var(--w)*1.33);border-radius:5px;background:#2b4a63;border:1px solid #6fb;font-size:calc(var(--w)*.17);padding:2px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.c.m{background:#4a5a2b}.c.s{background:#2b4a8a}.c.r{background:#7a2b52}.c.b{background:#555;width:calc(var(--w)*.45);height:calc(var(--w)*.6);margin-left:calc(var(--w)*-.2);padding:0}.oh .c.b:first-child{margin-left:0}.c.dd{border:2px solid #f90}.c.sel{outline:2px solid #fc0}.c.tg{outline:2px dashed #f55}
+.c img.card-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.c .card-label{position:relative;z-index:1;background:#000a;color:#fff;padding:1px 2px;border-radius:3px}
+.c.b img{width:100%;height:100%;object-fit:cover;display:block}
+#mid{font-size:11px;color:#cfd;background:#07141dcc;border-radius:6px;padding:3px}#log{opacity:.75;height:42px;overflow:hidden}#app{display:flex;flex-direction:column;gap:3px;flex:1;min-height:0}.oh{min-height:0;flex-wrap:nowrap;gap:0}u{text-decoration:none;color:#f90;font-weight:700}
+#acts{display:flex;gap:4px;flex-wrap:wrap}button{background:#e8b04a;color:#201;border:0;border-radius:6px;padding:7px 9px;font-weight:700;font-size:12px}button.g{background:#3b6a86;color:#fff}
+#ov{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:9}#ov>div{background:#143247;border-radius:10px;padding:12px;max-width:90vw;max-height:80vh;overflow:auto;display:flex;flex-direction:column;gap:5px}select{padding:5px;margin:3px 0;width:100%}
+#start-screen{min-height:100dvh;display:flex;align-items:center;justify-content:center;background:#0e2433 url('imagenes/fondo-inicio.jpg') center/cover no-repeat;padding:16px}
+#start-screen>div{background:#07141dcc;border-radius:12px;padding:16px;width:100%;max-width:320px}
+</style></head><body><div id="app"></div><div id="ov"></div><script>
+// ===== IMAGENES =====
+const IMG_DIR='imagenes/';
+const IMG_BACK=IMG_DIR+'reverso.jpg';
+const slug=n=>n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const imgFor=n=>IMG_DIR+slug(n)+'.jpg';
+const imgTag=(n,cls)=>`<img class="${cls||'card-img'}" src="${imgFor(n)}" alt="${n}" onerror="this.remove()">`;
+// ===== DATOS =====
+const T=s=>s.trim().split('\n').map(l=>{const a=l.split('|'),z=a[5]==='s'||a[5]==='r';return z?{n:a[0],c:+a[1],a:0,d:0,ty:'',st:'',k:a[5],x:a[6]||''}:{n:a[0],c:+a[1],a:+a[2]||0,d:+a[3]||0,ty:a[4]||'',st:a[5]||'',k:a[6],x:a[7]||''}});
+const CAT={};T(`
+Mono 0|0|0|10|Mono|Viento|m
+Monino|10|10|10|Mono|Tierra|m
+Mono loco|100|100|100|Mono|Fuego|m
+Puerco 0|0|0|10|Puerco|Viento|m
+Puerco 1|10|20|10|Puerco|Tierra|m
+Puerco 2|20|30|10|Puerco|Tierra|m
+Puerco 3|30|40|20|Puerco|Tierra|m
+Puerco cuarto|40|50|30|Puerco|Tierra|m
+Puerconio|50|60|40|Puerco|Tierra|m
+Puerco con estilo|60|70|50|Puerco|Tierra|m
+Puerco 7|70|80|60|Puerco|Tierra|m
+Puerco 8|80|90|70|Puerco|Tierra|m
+La cerda|90|100|80|Puerco|Tierra|m
+Puercomelon|100|100|100|Puerco|Tierra|m
+Rebotador|20|0|10|Mutante|Viento|m|Al invocarlo: regresa un monstruo a la mano de su dueño.
+Masticador|20|0|10|Mutante|Tierra|m|Al invocarlo: destruye un monstruo del campo.
+Doble monstruo|20|0|10|Mutante|Agua|m|Resiste un ataque que fuera a destruirlo.
+Desterrador|20|0|10|Mutante|Aether|m|Al invocarlo: remueve un monstruo del juego.
+Curandero|20|0|10|Mutante|Viento|m|Ganas 10 de energía al final de cada turno.
+Ayudante|20|0|10|Mutante|Tierra|m|Al invocarlo: +10 ATQ a un monstruo hasta el final del turno.
+Muro|0|0|20|Mutante|Tierra|m|No puede atacar.
+Reciclador|40|10|30|Mutante|Tierra|m|Al invocarlo: remueve una carta de tu cementerio y ganas su coste.
+Mono jefe de guerra|20|0|10|Mono|Fuego|m|Todos los monos en el campo tienen +10/+10.
+Mono tamborilero|40|10|40|Mono|Tierra|m|Al atacar: +10 ATQ por cada otro mono que ataque ese turno.
+Monstruo fugaz|0|10|10|Mutante|Fuego|m|Se sacrifica al final del turno.
+Monstruo veloz|20|10|10|Mutante|Viento|m|Ataca dos veces por turno.
+Mutante cero|0|10|10|Mutante|Fuego|m|Debe atacar cada turno.
+Debilitador|20|0|10|Mutante|Aether|m|Al invocarlo: un monstruo pierde 10 DEF hasta el final del turno.
+Puerco lodoso|40|0|40|Puerco|Tierra|m|En defensa: tus puercos ganan +10 DEF.
+Alma del bosque|20|0|10|Espíritu|Aether|m|Tu oponente paga 10 más por su siguiente monstruo.
+Puerco alpha|40|20|20|Puerco|Tierra|m|Tus puercos ganan +10 ATQ.
+Mago mimo|20|0|10|Hechicero|Aether|m|Al invocarlo: copia la última magia jugada.
+Adelanta|0||||s|Roba una carta.
+Explosión|50||||s|Destruye todos los monstruos del campo.
+Regresa|20||||s|Regresa un monstruo del campo a la mano de su dueño.
+Fuerza|10||||s|+10 ATQ y +10 DEF a un monstruo.
+Cura|0||||s|Ganas 10 de energía.
+Mata gigante|0||||s|Destruye un monstruo de coste 100.
+Absorbe vida|0||||s|Sacrifica un monstruo y ganas energía igual a su ATQ.
+Mirada remota|0||||s|Observa una carta de la mano rival.
+Hechizo mono prohibido|0||||s|Con un mono en tu mano, regresa un mono del cementerio al campo; se remueve al salir.
+Ruleta antigua|0||||s|Roba dos cartas y pon una de tu mano al fondo del mazo.
+Debilitar|0||||s|Un monstruo pierde 10 ATQ y DEF hasta el final del turno.
+Cura 2|10||||s|20 de energía temporal solo para invocar monstruos este turno.
+Flama|0||||s|El oponente pierde 10 de energía.
+Ciclo|0||||s|Pon una carta de tu mano al fondo del mazo y roba una.
+A dormir|10||||s|Un monstruo rival pasa a defensa hasta el final del turno.
+Selección de archivo|0||||s|Mira 3 cartas del tope, toma una y devuelve las demás.
+Ciclo temporal|100||||s|Cada jugador descarta su mano y roba la misma cantidad.
+Niega magia|20||||r|Niega una magia del oponente.
+Niega trampa|20||||r|Niega una respuesta del oponente.
+Barrera|20||||r|Destruye un monstruo que ataca.
+Debilidad|0||||r|Al atacar: un monstruo pierde 10 ATQ y 10 DEF.
+Refuerzo|0||||r|Al atacar: +10 DEF a un monstruo tuyo.
+Impuesto a la carne|10||||r|Niega una magia rival salvo que sacrifique un monstruo.
+Proteccion|0||||r|Este turno no recibes daño.
+Proteccion espiritual|10||||r|Este turno tus monstruos atacados no se destruyen en batalla.
+Renacer|50||||r|Regresa un monstruo de tu cementerio al campo sin pagar.
+Destruye pequeños|100||||r|Destruye un monstruo de coste 0.
+Trampa escondida|20||||r|Destruye un monstruo recién invocado.
+Olvido|100||||r|Remueve del juego una carta del campo.
+Revitalizar|20||||r|Niega un ataque y ganas energía igual a su ATQ.
+Stun|10||||r|Niega un ataque; ese monstruo no ataca el siguiente turno.
+Sobrepoblacion|50||||r|Si el rival invoca, destruye todos los monstruos.
+`).forEach(c=>CAT[c.n]=c);for(let i=2;i<10;i++)CAT['Mono '+i]={n:'Mono '+i,c:i*10,a:i*10,d:i*10,ty:'Mono',st:'Tierra',k:'m',x:''};
+const EV={'Niega magia':'m','Impuesto a la carne':'m','Niega trampa':'r','Barrera':'a','Revitalizar':'a','Stun':'a','Debilidad':'a','Refuerzo':'a','Proteccion':'a','Proteccion espiritual':'a','Trampa escondida':'s','Sobrepoblacion':'s','Renacer':'x','Destruye pequeños':'x','Olvido':'x'};
+const DK={Mono:'Mono 0,Monino,Mono 2,Mono 3,Mono 4,Mono 5,Mono 6,Mono 7,Mono 8,Mono 9,Mono loco,Adelanta,Explosión,Regresa,Fuerza,Cura,Mata gigante,Absorbe vida,Mirada remota,Hechizo mono prohibido,Ruleta antigua,Rebotador,Masticador,Doble monstruo,Desterrador,Curandero,Ayudante,Muro,Reciclador,Mono jefe de guerra,Mono tamborilero,Niega magia,Niega trampa,Barrera,Debilidad,Refuerzo,Impuesto a la carne,Proteccion,Proteccion espiritual,Renacer',
+Puerco:'Puerco 0,Puerco 1,Puerco 2,Puerco 3,Puerco cuarto,Puerconio,Puerco con estilo,Puerco 7,Puerco 8,La cerda,Puercomelon,Adelanta,Explosión,Regresa,Debilitar,Cura 2,Flama,Ciclo,A dormir,Selección de archivo,Ciclo temporal,Masticador,Monstruo fugaz,Monstruo veloz,Mutante cero,Rebotador,Debilitador,Puerco lodoso,Alma del bosque,Puerco alpha,Mago mimo,Destruye pequeños,Trampa escondida,Niega magia,Niega trampa,Barrera,Olvido,Revitalizar,Stun,Sobrepoblacion'};
+// ===== MOTOR =====
+let G;const doc=typeof document!=='undefined',$=id=>document.getElementById(id);
+const rnd=n=>Math.floor(Math.random()*n),sh=a=>{for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const mk=(t,o)=>({...t,t,o,pos:'a',ba:0,bd:0,ta:0,td:0,an:0,pc:0}),back=c=>mk(c.t,c.o);
+const wait=ms=>new Promise(r=>setTimeout(r,G&&G.fast?0:ms));
+const log=s=>{G.log.push('T'+G.turn+' · '+s);draw()};
+const allM=()=>[...G.p[0].f,...G.p[1].f];
+const A=c=>{let v=c.a+c.ba+c.ta;if(c.ty==='Mono')
