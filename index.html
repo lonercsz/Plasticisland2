@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0e2433"><link rel="icon" href="icon-192.png"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Plastic Island</title><style>
+*{box-sizing:border-box;margin:0}body{--w:min(calc((100vw - 112px)/3.3),calc((100dvh - 262px)/7),125px);background:#0e2433 url('imagenes/fondo-tablero.jpg') center/cover no-repeat fixed;color:#f2ecd8;font:12px system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column;gap:3px;padding:env(safe-area-inset-top) 4px env(safe-area-inset-bottom)}
+.bar{display:flex;gap:6px;align-items:center;font-size:11px;background:#07141dcc;border-radius:6px;padding:2px 4px}.eb{flex:1;height:12px;background:#07141d;border-radius:6px;overflow:hidden}.eb i{display:block;height:100%;background:#2ec4b6}.eb.red i{background:#e63946}
+.row{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;align-items:center;min-height:calc(var(--w)*1.72 + 6px);background:#143247cc;border-radius:6px;padding:2px}.row.f{flex:1}
+.c{width:var(--w);height:auto;border-radius:5px;background:#2b4a63;border:1px solid #6fb;font-size:calc(var(--w)*.15);padding:0;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;position:relative}.c.m{background:#4a5a2b;border-color:#9c6}.c.s{background:#2b4a8a;border-color:#6af}.c.r{background:#7a2b52;border-color:#e6a}.c.b{background:#555;width:calc(var(--w)*.45);height:calc(var(--w)*.6);margin-left:calc(var(--w)*-.2);padding:0}.oh .c.b:first-child{margin-left:0}.c.dd{border:2px solid #f90}.c.sel{outline:2px solid #fc0}.c.tg{outline:2px dashed #f55}
+.c .im{width:100%;aspect-ratio:3/4;flex:none;background:#0003;overflow:hidden}.c img.card-img{display:block;width:100%;height:100%;object-fit:cover}
+.c .card-label{display:block;background:#000b;color:#fff;padding:1px 2px;line-height:1.2}.c .nm,.c .st{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.c .st{font-size:.8em;letter-spacing:-.02em;white-space:normal}
+.c.b img{width:100%;height:100%;object-fit:cover;display:block}
+#mid{font-size:11px;color:#cfd;background:#07141dcc;border-radius:6px;padding:3px}#log{opacity:.75;height:28px;overflow:hidden}#app{display:flex;flex-direction:column;gap:3px;flex:1;min-height:0}.oh{min-height:0;flex-wrap:nowrap;gap:0}u{text-decoration:none;color:#f90;font-weight:700}
+#acts{display:flex;gap:4px;flex-wrap:wrap}button{background:#e8b04a;color:#201;border:0;border-radius:6px;padding:7px 9px;font-weight:700;font-size:12px}button.g{background:#3b6a86;color:#fff}
+#ov{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:9}#ov>div{background:#143247;border-radius:10px;padding:12px;max-width:90vw;max-height:80vh;overflow:auto;display:flex;flex-direction:column;gap:5px}select{padding:5px;margin:3px 0;width:100%}
+#start-screen{min-height:100dvh;display:flex;align-items:center;justify-content:center;background:#0e2433 url('imagenes/fondo-inicio.jpg') center/cover no-repeat;padding:16px}
+#start-screen>div{background:#07141dcc;border-radius:12px;padding:16px;width:100%;max-width:320px}
+#ho{position:fixed;inset:0;background:#0e2433;z-index:20;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;font-size:18px;padding:20px}button:disabled{opacity:.4}
+body.ded{background-image:url('imagenes/fondo-decks.jpg'),url('imagenes/fondo-tablero.jpg')}#ed .bt{background:#07141dcc;border-radius:6px;padding:3px}#ed{display:flex;flex-direction:column;gap:4px;flex:1;min-height:0;padding:4px}#ed .l{flex:1;min-height:0;overflow:auto;background:#143247cc;border-radius:6px;padding:4px}#ed .it{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 2px;border-bottom:1px solid #fff2}#ed small{display:block;opacity:.7}#ed .bt{display:flex;gap:4px;flex-wrap:wrap;align-items:center}#ed input,#ed select{width:100%;padding:6px;border-radius:6px;border:0}
+.pf{display:grid;grid-template-columns:42px 1fr 42px;gap:3px;flex:1;min-height:0}.ct{display:flex;flex-direction:column;gap:3px;min-width:0}.zs{display:flex;flex-direction:column;justify-content:center;gap:3px}.z{background:#07141dcc;border-radius:6px;padding:4px 1px;font-size:9px;text-align:center}.z b{display:block;font-size:13px}.row.mg{min-height:calc(var(--w)*.85);flex-wrap:nowrap}.c.sm{width:calc(var(--w)*.6);height:calc(var(--w)*.8)}.sl{width:calc(var(--w)*.6);height:calc(var(--w)*.8);border:1px dashed #fff4;border-radius:5px}.row.hd{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;min-height:calc(var(--w)*1.4)}.hd .c{width:calc(var(--w)*.8);flex:none}.bar{padding-right:32px}#tut{position:fixed;top:calc(env(safe-area-inset-top) + 3px);right:5px;z-index:8;width:26px;height:26px;padding:0;border-radius:50%}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}@keyframes gl{50%{filter:brightness(1.8)}}@keyframes lu{40%{transform:translateY(-16px) scale(1.08)}}@keyframes ld{40%{transform:translateY(16px) scale(1.08)}}.pop{animation:pop .3s both}.lgu{animation:lu .38s;z-index:3}.lgd{animation:ld .38s;z-index:3}.bar.hit{animation:sh .4s}.bar.up{animation:gl .5s}@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body><button id="tut" onclick="tut()">?</button><div id="app"></div><div id="ov"></div><div id="ho"></div><script>
+// ===== IMAGENES =====
+const IMG_DIR='imagenes/';
+const IMG_BACK=IMG_DIR+'reverso.jpg'; // reverso de las cartas (mano del rival)
+// Otros archivos en imagenes/: fondo-tablero.jpg (partida), fondo-inicio.jpg (menú inicial), fondo-decks.jpg (editor de decks), <nombre-de-carta>.jpg (cada carta)
+const slug=n=>n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const imgFor=n=>IMG_DIR+slug(n)+'.jpg';
+const imgTag=(n,cls)=>`<img class="${cls||'card-img'}" src="${imgFor(n)}" alt="${n}" onerror="this.remove()">`;
+// ===== DATOS =====
+const T=s=>s.trim().split('\n').map(l=>{const a=l.split('|'),z=a[5]==='s'||a[5]==='r';return z?{n:a[0],c:+a[1],a:0,d:0,ty:'',st:'',k:a[5],x:a[6]||''}:{n:a[0],c:+a[1],a:+a[2]||0,d:+a[3]||0,ty:a[4]||'',st:a[5]||'',k:a[6],x:a[7]||''}});
+const CAT={};T(`
+Mono 0|0|0|10|Mono|Viento|m
+Monino|10|10|10|Mono|Tierra|m
+Mono loco|100|100|100|Mono|Fuego|m
+Puerco 0|0|0|10|Puerco|Viento|m
+Puerco 1|10|20|10|Puerco|Tierra|m
+Puerco 2|20|30|10|Puerco|Tierra|m
+Puerco 3|30|40|20|Puerco|Tierra|m
+Puerco cuarto|40|50|30|Puerco|Tierra|m
+Puerconio|50|60|40|Puerco|Tierra|m
+Puerco con estilo|60|70|50|Puerco|Tierra|m
+Puerco 7|70|80|60|Puerco|Tierra|m
+Puerco 8|80|90|70|Puerco|Tierra|m
+La cerda|90|100|80|Puerco|Tierra|m
+Puercomelon|100|100|100|Puerco|Tierra|m
+Rebotador|20|0|10|Mutante|Viento|m|Al invocarlo: regresa un monstruo a la mano de su dueño.
+Masticador|20|0|10|Mutante|Tierra|m|Al invocarlo: destruye un monstruo del campo.
+Doble monstruo|20|0|10|Mutante|Agua|m|Resiste un ataque que fuera a destruirlo.
+Desterrador|20|0|10|Mutante|Aether|m|Al invocarlo: remueve un monstruo del juego.
+Curandero|20|0|10|Mutante|Viento|m|Ganas 10 de energía al final de cada turno.
+Ayudante|20|0|10|Mutante|Tierra|m|Al invocarlo: +10 ATQ a un monstruo hasta el final del turno.
+Muro|0|0|20|Mutante|Tierra|m|No puede atacar.
+Reciclador|40|10|30|Mutante|Tierra|m|Al invocarlo: remueve una carta de tu cementerio y ganas su coste.
+Mono jefe de guerra|20|0|10|Mono|Fuego|m|Todos los monos en el campo tienen +10/+10.
+Mono tamborilero|40|10|40|Mono|Tierra|m|Al atacar: +10 ATQ por cada otro mono que ataque ese turno.
+Monstruo fugaz|0|10|10|Mutante|Fuego|m|Se sacrifica al final del turno.
+Monstruo veloz|20|10|10|Mutante|Viento|m|Ataca dos veces por turno.
+Mutante cero|0|10|10|Mutante|Fuego|m|Debe atacar cada turno.
+Debilitador|20|0|10|Mutante|Aether|m|Al invocarlo: un monstruo pierde 10 DEF hasta el final del turno.
+Puerco lodoso|40|0|40|Puerco|Tierra|m|En defensa: tus puercos ganan +10 DEF.
+Alma del bosque|20|0|10|Espíritu|Aether|m|Tu oponente paga 10 más por su siguiente monstruo.
+Puerco alpha|40|20|20|Puerco|Tierra|m|Tus puercos ganan +10 ATQ.
+Mago mimo|20|0|10|Hechicero|Aether|m|Al invocarlo: copia la última magia jugada.
+Adelanta|0||||s|Roba una carta.
+Explosión|50||||s|Destruye todos los monstruos del campo.
+Regresa|20||||s|Regresa un monstruo del campo a la mano de su dueño.
+Fuerza|10||||s|+10 ATQ y +10 DEF a un monstruo.
+Cura|0||||s|Ganas 10 de energía.
+Mata gigante|0||||s|Destruye un monstruo de coste 100.
+Absorbe vida|0||||s|Sacrifica un monstruo y ganas energía igual a su ATQ.
+Mirada remota|0||||s|Observa una carta de la mano rival.
+Hechizo mono prohibido|0||||s|Con un mono en tu mano, regresa un mono del cementerio al campo; se remueve al salir.
+Ruleta antigua|0||||s|Roba dos cartas y pon una de tu mano al fondo del mazo.
+Debilitar|0||||s|Un monstruo pierde 10 ATQ y DEF hasta el final del turno.
+Cura 2|10||||s|20 de energía temporal solo para invocar monstruos este turno.
+Flama|0||||s|El oponente pierde 10 de energía.
+Ciclo|0||||s|Pon una carta de tu mano al fondo del mazo y roba una.
+A dormir|10||||s|Un monstruo rival pasa a defensa hasta el final del turno.
+Selección de archivo|0||||s|Mira 3 cartas del tope, toma una y devuelve las demás.
+Ciclo temporal|100||||s|Cada jugador descarta su mano y roba la misma cantidad.
+Niega magia|20||||r|Niega una magia del oponente.
+Niega trampa|20||||r|Niega una respuesta del oponente.
+Barrera|20||||r|Destruye un monstruo que ataca.
+Debilidad|0||||r|Al atacar: un monstruo pierde 10 ATQ y 10 DEF.
+Refuerzo|0||||r|Al atacar: +10 DEF a un monstruo tuyo.
+Impuesto a la carne|10||||r|Niega una magia rival salvo que sacrifique un monstruo.
+Proteccion|0||||r|Este turno no recibes daño.
+Proteccion espiritual|10||||r|Este turno tus monstruos atacados no se destruyen en batalla.
+Renacer|50||||r|Regresa un monstruo de tu cementerio al campo sin pagar.
+Destruye coste bajo|100||||r|Destruye un monstruo de coste 0.
+Trampa escondida|20||||r|Destruye un monstruo recién invocado.
+Olvido|100||||r|Remueve del juego una carta del campo.
+Revitalizar|20||||r|Niega un ataque y ganas energía igual a su ATQ.
+Stun|10||||r|Niega un ataque; ese monstruo no ataca el siguiente turno.
+Sobrepoblacion|50||||r|Si el rival invoca, destruye todos los monstruos.
+`).forEach(c=>CAT[c.n]=c);for(let i=2;i<10;i++)CAT['Mono '+i]={n:'Mono '+i,c:i*10,a:i*10,d:i*10,ty:'Mono',st:'Tierra',k:'m',x:''};
+const EV={'Niega magia':'m','Impuesto a la carne':'m','Niega trampa':'r','Barrera':'a','Revitalizar':'a','Stun':'a','Debilidad':'a','Refuerzo':'a','Proteccion':'a','Proteccion espiritual':'a','Trampa escondida':'s','Sobrepoblacion':'s','Renacer':'x','Destruye coste bajo':'x','Olvido':'x'};
+const DK={Mono:'Mono 0,Monino,Mono 2,Mono 3,Mono 4,Mono 5,Mono 6,Mono 7,Mono 8,Mono 9,Mono loco,Adelanta,Explosión,Regresa,Fuerza,Cura,Mata gigante,Absorbe vida,Mirada remota,Hechizo mono prohibido,Ruleta antigua,Rebotador,Masticador,Doble monstruo,Desterrador,Curandero,Ayudante,Muro,Reciclador,Mono jefe de guerra,Mono tamborilero,Niega magia,Niega trampa,Barrera,Debilidad,Refuerzo,Impuesto a la carne,Proteccion,Proteccion espiritual,Renacer',
+Puerco:'Puerco 0,Puerco 1,Puerco 2,Puerco 3,Puerco cuarto,Puerconio,Puerco con estilo,Puerco 7,Puerco 8,La cerda,Puercomelon,Adelanta,Explosión,Regresa,Debilitar,Cura 2,Flama,Ciclo,A dormir,Selección de archivo,Ciclo temporal,Masticador,Monstruo fugaz,Monstruo veloz,Mutante cero,Rebotador,Debilitador,Puerco lodoso,Alma del bosque,Puerco alpha,Mago mimo,Destruye coste bajo,Trampa escondida,Niega magia,Niega trampa,Barrera,Olvido,Revitalizar,Stun,Sobrepoblacion'};
+// ===== MOTOR =====
+let G;const doc=typeof document!=='undefined',$=id=>document.getElementById(id);
+const rnd=n=>Math.floor(Math.random()*n),sh=a=>{for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+let UID=0;const mk=(t,o)=>({...t,t,o,u:++UID,pos:'a',ba:0,bd:0,ta:0,td:0,an:0,pc:0}),back=c=>mk(c.t,c.o);
+const wait=ms=>new Promise(r=>setTimeout(r,G&&G.fast?0:ms));
+const win=i=>G.two?'Gana '+G.p[i].nm:i?'Gana la CPU':'Gana el jugador';
+function seat(i){if(!G.two||G.v===i||!doc)return;return new Promise(r=>{const h=$('ho');h.innerHTML='<b>Pasa el celular a '+G.p[i].nm+'</b><button>Estoy listo</button>';h.style.display='flex';h.querySelector('button').onclick=()=>{h.style.display='none';G.v=i;draw();r()}})}
+const log=s=>{if(!G.fast)snd(330,.04,0);G.log.push('T'+G.turn+' · '+s);draw()};
+const allM=()=>[...G.p[0].f,...G.p[1].f];
+const A=c=>{let v=c.a+c.ba+c.ta;if(c.ty==='Mono')v+=10*allM().filter(x=>x.n==='Mono jefe de guerra').length;if(c.ty==='Puerco')v+=10*G.p[c.o].f.filter(x=>x.n==='Puerco alpha').length;return Math.max(0,v)};
+const Df=c=>{let v=c.d+c.bd+c.td;if(c.ty==='Mono')v+=10*allM().filter(x=>x.n==='Mono jefe de guerra').length;if(c.ty==='Puerco')v+=10*G.p[c.o].f.filter(x=>x.n==='Puerco lodoso'&&x.pos==='d').length;return v};
+const rm=c=>{const p=G.p[c.o];p.f=p.f.filter(x=>x!==c)};
+const kill=c=>{if(c.n==='Doble monstruo'&&!c.u){c.u=1;log('Doble monstruo resiste');return}rm(c);(c.rm?G.p[c.o].x:G.p[c.o].g).push(back(c))};
+const sac=c=>{rm(c);G.p[c.o].e+=c.c;(c.rm?G.p[c.o].x:G.p[c.o].g).push(back(c))};
+const bounce=c=>{rm(c);G.p[c.o].hand.push(back(c))};
+const all=()=>{for(const c of allM())kill(c)};
+function chk(){for(const c of allM())if(Df(c)<=0)kill(c);const a=G.p[0].e<=0,b=G.p[1].e<=0;if(a||b)G.over=a&&b?'Empate':a?win(1):win(0)}
+const dmg=(i,n)=>{if(G.p[i].prot)return;G.p[i].e-=n;if(n>0&&G.p[i].h)snd(150,.15,60);chk()};
+function draw1(i){const p=G.p[i];if(!p.deck.length){G.over=win(1-i);return}p.hand.push(p.deck.pop())}
+const cost=(i,c)=>c.c+(c.k==='m'?G.p[i].tax:0);
+function can(i,c){const p=G.p[i],n=cost(i,c),r=n-(c.k==='m'?Math.min(p.tmp,n):0);return(c.k!=='m'||p.f.length<3)&&(r<=0||p.e-r>0)}
+function pay(i,c){const p=G.p[i],n=cost(i,c);if(c.k==='m'){p.tax=0;const t=Math.min(p.tmp,n);p.tmp-=t;p.e-=n-t}else p.e-=n}
+async function modal(t,L,i){if(i!==undefined)await seat(i);return new Promise(r=>{if(!doc)return r(0);$('ov').innerHTML='<div><b>'+t+'</b>'+L.map((x,i)=>'<button data-m='+i+'>'+x+'</button>').join('')+'</div>';$('ov').style.display='flex';$('ov').onclick=e=>{const b=e.target.closest('[data-m]');if(b){$('ov').style.display='none';r(+b.dataset.m)}}})}
+function panel(h){$('ov').innerHTML='<div style="width:90vw">'+h+'<button data-x>Cerrar</button></div>';$('ov').style.display='flex';$('ov').onclick=e=>{if(e.target.closest('[data-x]')||e.target===$('ov'))$('ov').style.display='none'}}
+const yn=async(i,q)=>G.p[i].h?(await modal(q,['Sí','No'],i))===0:G.p[i].lv>1&&Math.random()<.5;
+async function pick(i,fn,want){const L=allM().filter(fn);if(!L.length)return null;
+ if(!G.p[i].h){const b=a=>[...a].sort((x,y)=>A(y)-A(x))[0],mi=L.filter(c=>c.o===i),th=L.filter(c=>c.o!==i);return want==='p'?b(mi.length?mi:L):b(th.length?th:L)}
+ await seat(i);return new Promise(r=>{G.pk={L,r};draw()})}
+async function bottom(i){const p=G.p[i];if(!p.hand.length)return;let k;if(p.h)k=await modal('Carta al fondo del mazo',p.hand.map(c=>c.n),i);else k=p.hand.indexOf([...p.hand].sort((a,b)=>b.c-a.c)[0]);p.deck.unshift(p.hand.splice(k,1)[0])}
+const E={'Adelanta':x=>draw1(x.p),'Explosión':()=>all(),'Cura':x=>{G.p[x.p].e+=10},'Cura 2':x=>{G.p[x.p].tmp+=20},'Flama':x=>dmg(1-x.p,10),
+'Regresa':async x=>{const c=await pick(x.p,()=>1,'o');if(c)bounce(c)},
+'Fuerza':async x=>{const c=await pick(x.p,()=>1,'p');if(c){c.ba+=10;c.bd+=10}},
+'Mata gigante':async x=>{const c=await pick(x.p,m=>m.c===100,'o');if(c)kill(c)},
+'Absorbe vida':async x=>{const c=await pick(x.p,m=>m.o===x.p,'p');if(c){const a=A(c);sac(c);G.p[x.p].e+=a}},
+'Mirada remota':async x=>{const h=G.p[1-x.p].hand;if(h.length&&G.p[x.p].h){const c=h[rnd(h.length)];await modal('Carta del rival: '+c.n+' ('+c.c+'). '+c.x,['OK'],x.p)}},
+'Hechizo mono prohibido':async x=>{const p=G.p[x.p],L=p.g.filter(c=>c.ty==='Mono'&&c.k==='m');if(!p.hand.some(c=>c.ty==='Mono'&&c.k==='m')||!L.length)return;const c=L.sort((a,b)=>b.a-a.a)[0];p.g=p.g.filter(y=>y!==c);c.rm=1;await summon(x.p,c)},
+'Ruleta antigua':async x=>{draw1(x.p);draw1(x.p);await bottom(x.p)},'Ciclo':async x=>{await bottom(x.p);draw1(x.p)},
+'Debilitar':async x=>{const c=await pick(x.p,()=>1,'o');if(c){c.ta-=10;c.td-=10}},
+'A dormir':async x=>{const c=await pick(x.p,m=>m.o!==x.p&&m.pos==='a','o');if(c){c.pos='d';c.rv=1}},
+'Selección de archivo':async x=>{const p=G.p[x.p],t=p.deck.splice(-3);if(!t.length)return;const k=p.h?await modal('Toma una carta',t.map(c=>c.n),x.p):t.indexOf([...t].sort((a,b)=>b.c-a.c)[0]);p.hand.push(t[k]);p.deck.push(...t.filter((_,j)=>j!==k))},
+'Ciclo temporal':()=>{for(const i of[0,1]){const p=G.p[i],n=p.hand.length;p.g.push(...p.hand);p.hand=[];for(let k=0;k<n;k++)draw1(i)}}};
+const R={'Niega magia':(x,b)=>{if(b&&b.t==='m')b.cancel=1},'Niega trampa':(x,b)=>{if(b&&b.t==='r')b.cancel=1},
+'Impuesto a la carne':async(x,b)=>{if(!b||b.t!=='m')return;const q=b.p;if(G.p[q].f.length&&await yn(q,'¿Sacrificar un monstruo para evitar la negación?')){const c=await pick(q,m=>m.o===q,'p');if(c){sac(c);return}}b.cancel=1},
+'Barrera':(x,b)=>{if(b&&b.t==='a'){b.cancel=1;kill(b.c)}},'Revitalizar':(x,b)=>{if(b&&b.t==='a'){b.cancel=1;G.p[x.p].e+=A(b.c)}},
+'Stun':(x,b)=>{if(b&&b.t==='a'){b.cancel=1;b.c.stun=G.turn+2}},'Trampa escondida':(x,b)=>{if(b&&b.t==='s')kill(b.c)},'Sobrepoblacion':(x,b)=>{if(b&&b.t==='s')all()},
+'Debilidad':async x=>{const c=await pick(x.p,()=>1,'o');if(c){c.ba-=10;c.bd-=10}},'Refuerzo':async x=>{const c=await pick(x.p,m=>m.o===x.p,'p');if(c)c.bd+=10},
+'Proteccion':x=>{G.p[x.p].prot=1},'Proteccion espiritual':x=>{G.p[x.p].sp=1},
+'Renacer':async x=>{const p=G.p[x.p],L=p.g.filter(c=>c.k==='m');if(!L.length)return;let c;if(p.h){const k=await modal('Regresa un monstruo',L.map(y=>y.n),x.p);c=L[k]}else c=L.sort((a,b)=>b.c-a.c)[0];p.g=p.g.filter(y=>y!==c);await summon(x.p,c)},
+'Destruye coste bajo':async x=>{const c=await pick(x.p,m=>m.c===0,'o');if(c)kill(c)},
+'Olvido':async x=>{const c=await pick(x.p,()=>1,'o');if(c){rm(c);G.p[c.o].x.push(back(c))}}};
+const EB={'Rebotador':async(c,i)=>{const t=await pick(i,m=>m!==c,'o');if(t)bounce(t)},'Masticador':async(c,i)=>{const t=await pick(i,m=>m!==c,'o');if(t)kill(t)},
+'Desterrador':async(c,i)=>{const t=await pick(i,m=>m!==c,'o');if(t){rm(t);G.p[t.o].x.push(back(t))}},
+'Ayudante':async(c,i)=>{const t=await pick(i,()=>1,'p');if(t)t.ta+=10},'Debilitador':async(c,i)=>{const t=await pick(i,()=>1,'o');if(t)t.td-=10},
+'Alma del bosque':(c,i)=>{G.p[1-i].tax=10},'Mago mimo':async(c,i)=>{const n=G.lastM;if(n&&E[n])await E[n]({p:i})},
+'Reciclador':async(c,i)=>{const p=G.p[i];if(!p.g.length)return;let g;if(p.h)g=p.g[await modal('Remueve del juego (ganas su coste)',p.g.map(y=>y.n+' ('+y.c+')'),i)];else g=[...p.g].sort((a,b)=>b.c-a.c)[0];p.g=p.g.filter(y=>y!==g);p.x.push(g);p.e+=g.c}};
+function valid(i,ev,it){return G.p[i].hand.filter(c=>c.k==='r'&&EV[c.n]===ev&&can(i,c)&&(ev==='r'||it.p!==i)&&(c.n!=='Niega magia'&&c.n!=='Impuesto a la carne'||it.t==='m')&&(c.n!=='Niega trampa'||it.t==='r')&&(!['Debilidad','Refuerzo'].includes(c.n)||allM().some(m=>c.n==='Debilidad'||m.o===i)))}
+function aiResp(i,v,it){const L=G.p[i].lv;if(L===1&&Math.random()<.7)return null;const a=it.t==='a'?A(it.c):0;
+ for(const c of v){const n=c.n;if((n==='Niega magia'||n==='Impuesto a la carne')&&(it.c.c>=20||['Flama','Explosión','Regresa'].includes(it.c.n)))return c;
+ if(it.t==='a'&&(n==='Barrera'&&a>=30||n==='Stun'&&a>=30||n==='Revitalizar'&&a>=40||n==='Proteccion'&&!G.p[1-i].f.length&&a>=G.p[i].e/3||L>2&&n==='Proteccion espiritual'&&a>=40))return c;
+ if(it.t==='s'&&(n==='Trampa escondida'&&it.c.c>=30||n==='Sobrepoblacion'&&G.p[1-i].f.length>G.p[i].f.length+1))return c;
+ if(n==='Niega trampa'&&it.c.c>=20)return c}return null}
+async function ask(i,ev,it){const v=valid(i,ev,it);if(!v.length)return null;if(G.p[i].h){const k=await modal('¿Responder a '+it.c.n+'?',v.map(c=>c.n+' ('+c.c+')').concat(['Pasar']),i);return k<v.length?v[k]:null}return aiResp(i,v,it)}
+const loopG=()=>{if(++G.cnt>80){G.cnt=0;log('Bucle infinito: se destruyen los monstruos implicados');all()}};
+async function note(i,c){if(!doc||G.fast||!G.p[i].lv)return;G.nt=c.n+': '+(c.x||'sin efecto');draw();await wait(1000);G.nt=null;draw()}
+async function chain(it){const S=[it];let t=1-it.p,ps=0;
+ while(ps<2&&!G.over){const top=S[S.length-1],r=await ask(t,top.t==='r'?'r':top.t,top);if(r){pay(t,r);G.p[t].hand=G.p[t].hand.filter(x=>x!==r);S.push({t:'r',c:r,p:t});{const z=G.p[t].mz;if(z.length>=3)z.shift();z.push(r)}log(G.p[t].nm+' activa '+r.n);ps=0}else ps++;t=1-t}
+ while(S.length>1){const x=S.pop();if(!x.cancel)await R[x.c.n](x,S[S.length-1]);G.p[x.p].g.push(x.c);chk()}return it}
+async function playCard(i,c){const p=G.p[i];pay(i,c);p.hand=p.hand.filter(x=>x!==c);if(p.mz.length>=3)p.mz.shift();p.mz.push(c);log(p.nm+' juega '+c.n);loopG();await note(i,c);const sp=c.k==='s',it={t:sp?'m':'r',c,p:i};G.last=c;await chain(it);
+ if(!it.cancel&&!G.over){if(sp){await E[c.n](it);G.lastM=c.n}else await R[c.n](it,null)}p.g.push(c);chk()}
+async function summon(i,h,pos){const p=G.p[i];if(p.f.length>=3){log('Campo lleno: '+h.n+' no entra');p.g.push(h);return}const c=mk(h.t,i);c.rm=h.rm;c.sm=G.turn;if(pos==='d')c.pos='d';p.f.push(c);log(p.nm+' invoca '+c.n);G.last=c;loopG();await note(i,c);
+ await chain({t:'s',c,p:i});chk();if(G.over||!p.f.includes(c))return;if(EB[c.n])await EB[c.n](c,i);chk()}
+async function sumH(i,c,pos){pay(i,c);G.p[i].hand=G.p[i].hand.filter(x=>x!==c);await summon(i,c,pos)}
+async function atk(i,c,t){c.an++;if(c.n==='Mono tamborilero')c.ta+=10*G.p[i].f.filter(m=>m!==c&&m.ty==='Mono'&&m.an>0).length;log(G.p[i].nm+' ataca con '+c.n);if(doc&&!G.fast){G.fx=c.u;draw();await wait(380);G.fx=0}
+ const it={t:'a',c,p:i};await chain(it);chk();if(G.over||it.cancel||!G.p[i].f.includes(c))return;const q=G.p[1-i];
+ if(!t)dmg(1-i,A(c));else if(q.f.includes(t)){const a=A(c);if(t.pos==='a'){const b=A(t);if(a>b){if(!q.sp)kill(t);dmg(1-i,a-b)}else if(b>a){kill(c);dmg(i,b-a)}else{if(!q.sp)kill(t);kill(c)}}
+ else{const d=Df(t);if(a>d){if(!q.sp)kill(t)}else if(a<d)kill(c);else{if(!q.sp)kill(t);kill(c)}}}chk()}
+const canAtk=c=>G.turn>1&&c.n!=='Muro'&&c.pos==='a'&&c.an<(c.n==='Monstruo veloz'?2:1)&&c.stun!==G.turn;
+const gain=t=>Math.floor(t/20)*10;
+function fin(i){for(const c of[...G.p[i].f]){if(c.n==='Curandero')G.p[i].e+=10;if(c.n==='Monstruo fugaz')sac(c)}
+ for(const c of allM()){c.ta=c.td=0;if(c.rv){c.pos='a';c.rv=0}}for(const p of G.p){p.tmp=0;p.prot=0;p.sp=0;p.mz=[]}chk()}
+async function trim(i){const p=G.p[i],v=c=>c.k==='m'?(c.a+c.d)/2:15;while(p.hand.length>7&&!G.over){let k;if(p.h)k=await modal('Mano llena ('+p.hand.length+'/7): descarta una',p.hand.map(c=>c.n),i);else k=p.hand.indexOf([...p.hand].sort((a,b)=>v(a)-v(b))[0]);p.g.push(p.hand.splice(k,1)[0]);log(p.nm+' descarta por el límite de mano')}}
+async function forced(i){const p=G.p[i],q=G.p[1-i],f=t=>t.pos==='a'?A(t):Df(t);for(const c of[...p.f]){if(c.n!=='Mutante cero'||!canAtk(c))continue;let t=null;if(q.f.length){log('Mutante cero debe atacar: elige objetivo');t=await pick(i,m=>m.o!==i,'o')||[...q.f].sort((a,b)=>f(a)-f(b))[0]}await atk(i,c,t)}}
+// ===== IA =====
+function sc(i,c){const p=G.p[i],q=G.p[1-i],L=p.lv,my=p.f.length,th=q.f.length;
+ if(c.k==='m'){if(L===1)return 5;const thr=q.f.reduce((a,x)=>a+A(x),0),res=L>2?Math.max(30,Math.min(100,thr)):40;return p.e-cost(i,c)<res&&c.c>0?-1:(c.a+c.d)/2-c.c*.3+6}
+ const m={'Adelanta':5,'Ruleta antigua':6,'Cura':p.e<150?4:0,'Cura 2':p.hand.some(x=>x.k==='m'&&x.c>p.e-40)?3:0,'Explosión':th>my+1?6:0,'Regresa':th?3:0,'Fuerza':my?3:0,'Mata gigante':q.f.some(x=>x.c===100)?9:0,'Absorbe vida':p.e<=60&&my?4:0,'Hechizo mono prohibido':p.hand.some(x=>x.ty==='Mono')&&p.g.some(x=>x.ty==='Mono')?7:0,'Debilitar':th?2:0,'A dormir':th?3:0,'Selección de archivo':4,'Flama':8,'Ciclo':p.hand.length>4?2:0,'Ciclo temporal':p.e>150&&p.hand.length<2?2:0,'Destruye coste bajo':q.f.some(x=>x.c===0)?3:0,'Olvido':q.f.some(x=>x.c>=60)?3:0,'Renacer':p.g.some(x=>x.k==='m'&&x.c>=40)?4:0};return m[c.n]||0}
+async function cpu(i){const p=G.p[i],q=G.p[1-i],L=p.lv;await wait(700);
+ for(let n=0;n<14&&!G.over;n++){
+  if(L>1&&p.e===10&&p.hand.length){const c=[...p.hand].sort((a,b)=>b.c-a.c)[0];if(c.c>0){p.hand=p.hand.filter(x=>x!==c);p.g.push(c);p.e+=c.c;log('CPU descarta una carta');continue}}
+  if(L>1&&p.e<=20&&p.f.length){sac([...p.f].sort((a,b)=>b.c-a.c)[0]);log('CPU sacrifica un monstruo');continue}
+  if(L>2&&p.e<=40&&p.g.filter(c=>c.c>0).length>1){const s=p.g.filter(c=>c.c>0).slice(0,4),t=s.reduce((a,c)=>a+c.c,0);p.g=p.g.filter(c=>!s.includes(c));p.x.push(...s);p.e+=gain(t);log('CPU recupera energía del cementerio');continue}
+  if(L===1&&Math.random()<.3)break;
+  if(L>1&&p.f.length>=3){const V=c=>c.a+c.d+(['Curandero','Mono jefe de guerra','Puerco alpha','Puerco lodoso'].includes(c.n)?40:0),w=[...p.f].sort((a,b)=>V(a)-V(b))[0],b=p.hand.filter(c=>c.k==='m'&&V(c)>V(w)+20&&p.e+w.c-cost(i,c)>=40).sort((a,b)=>V(b)-V(a))[0];if(b){sac(w);log('CPU sacrifica '+w.n+' para hacer espacio');continue}}
+  const o=p.hand.filter(c=>(c.k!=='r'||EV[c.n]==='x'&&sc(i,{k:'s',n:c.n})>0)&&can(i,c)&&sc(i,c)>0);if(!o.length)break;
+  o.sort((a,b)=>L>2?(a.k==='m')-(b.k==='m')||sc(i,b)-sc(i,a):sc(i,b)-sc(i,a));const c=L===1?o[rnd(o.length)]:o[0];await wait(500);
+  if(c.k==='m')await sumH(i,c,c.a>=c.d?'a':'d');else await playCard(i,c)}
+ G.ph=3;draw();await wait(400);
+ for(const c of[...p.f].sort((a,b)=>A(b)-A(a))){if(G.over)break;if(!p.f.includes(c)||!canAtk(c))continue;
+  const f=t=>t.pos==='a'?A(t):Df(t);
+  if(c.n==='Mutante cero'){await atk(i,c,q.f.length?[...q.f].sort((a,b)=>f(a)-f(b))[0]:null)}else if(!q.f.length){if(A(c)>0)await atk(i,c,null)}else if(L===1){if(Math.random()<.5)await atk(i,c,q.f[rnd(q.f.length)])}
+  else{const V=t=>{const a=A(c),d=f(t);return a>d?t.c+d/2+(t.pos==='a'?a-d:0):a===d?t.c-c.c-5:-c.c-d/2},T=q.f.map(t=>[t,V(t)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);if(T.length)await atk(i,c,T[0][0])}
+  await wait(500)}
+ G.ph=4}
+// ===== PARTIDA =====
+function newGame(d0,d1,lv,hum=true,two=false){const mkp=(d,i,h)=>({nm:two?'Jugador '+(i+1):i?'CPU':'Jugador',h,lv:i&&!two?lv:0,e:200,deck:sh(DK[d].split(',').map(n=>mk(CAT[n],i))),hand:[],f:[],g:[],x:[],mz:[],tmp:0,tax:0,prot:0,sp:0});
+ G={p:[mkp(d0,0,hum),mkp(d1,1,two)],two,v:0,cur:rnd(2),turn:0,ph:2,log:[],sel:null,fast:!hum,over:null,cnt:0};for(const p of G.p)p.hand=p.deck.splice(-5);
+ log((two?G.p[G.cur].nm:G.cur?'La CPU':'El jugador')+' empieza (al azar)');return loop()}
+async function loop(){while(!G.over){const i=G.cur,p=G.p[i];G.turn++;G.ph=0;draw1(i);chk();if(G.over)break;for(const c of p.f){c.an=0;c.pc=0}G.cnt=0;G.ph=2;G.sel=null;log('Turno de '+p.nm);
+  if(p.h){await seat(i);G.w=1;await new Promise(r=>G.nx=r);G.w=0}else await cpu(i);if(G.over)break;G.ph=5;await wait(200);G.ph=6;fin(i);await trim(i);G.cur=1-i}draw();if(doc)modal(G.over,['Jugar otra vez']).then(setup)}
+// ===== DECKS (guardado + editor) =====
+const TAM=40,MAX_COPIAS=1,DK0={...DK},ES={m:'Monstruo',s:'Magia',r:'Respuesta'},qt=x=>(x||'').replace(/"/g,'&quot;');
+try{Object.assign(DK,JSON.parse(localStorage.pi_decks||'{}'))}catch(e){}
+const saveDK=()=>{try{const o={};for(const k in DK)if(DK[k]!==DK0[k])o[k]=DK[k];localStorage.pi_decks=JSON.stringify(o)}catch(e){}};
+let ED;const cnt=n=>ED.l.filter(x=>x===n).length;
+function editor(nm){nm=nm||Object.keys(DK)[0];ED={nm,dn:nm,l:DK[nm].split(','),f:'all',q:'',msg:''};edDraw()}
+function edDraw(){document.body.classList.add('ded');const y=($('el')||{}).scrollTop||0,n=ED.l.length,ks=Object.keys(DK),
+ L=Object.values(CAT).sort((a,b)=>'msr'.indexOf(a.k)-'msr'.indexOf(b.k)||a.c-b.c||a.n.localeCompare(b.n)).filter(c=>(ED.f==='all'||(ED.f==='deck'?cnt(c.n):c.k===ED.f))&&c.n.toLowerCase().includes(ED.q.toLowerCase()));
+ $('app').innerHTML=`<div id="ed"><select id="ds">${ks.map(d=>`<option${d===ED.nm?' selected':''}>${d}</option>`).join('')}</select><input id="dn" value="${qt(ED.dn)}" placeholder="Nombre del deck (otro nombre = deck nuevo)">
+<div class="bt"><b style="color:${n===TAM?'#2ec4b6':'#f90'}">${n}/${TAM} cartas</b><span>${ED.msg}</span></div>
+<div class="bt"><select id="df" style="flex:1;width:auto">${[['all','Todas'],['deck','En el deck'],['m','Monstruos'],['s','Magias'],['r','Respuestas']].map(([v,t])=>`<option value="${v}"${v===ED.f?' selected':''}>${t}</option>`).join('')}</select><input id="dq" value="${qt(ED.q)}" placeholder="Buscar" style="flex:1;width:auto"></div>
+<div class="l" id="el">${L.map(c=>`<div class="it"><div><b>${c.n}</b> · ${c.c}⚡ · ${c.k==='m'?c.a+'/'+c.d+' '+c.ty:ES[c.k]}<small>${c.x||''}</small></div><div style="white-space:nowrap"><button data-d="-${c.n}">−</button> <b>${cnt(c.n)}</b> <button data-d="+${c.n}">+</button></div></div>`).join('')}</div>
+<div class="bt"><button id="dg"${n===TAM?'':' disabled'}>Guardar</button>${DK0[ED.nm]&&DK[ED.nm]!==DK0[ED.nm]?'<button id="dr" class="g">Restaurar original</button>':''}${DK0[ED.nm]?'':'<button id="de" class="g">Eliminar</button>'}<button id="dv" class="g">Volver</button></div></div>`;
+ $('el').scrollTop=y;$('ds').onchange=e=>editor(e.target.value);$('df').onchange=e=>{ED.f=e.target.value;edDraw()};$('dq').onchange=e=>{ED.q=e.target.value;edDraw()};$('dn').oninput=e=>ED.dn=e.target.value;
+ $('app').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.d){const c=b.dataset.d.slice(1),k=cnt(c);if(b.dataset.d[0]==='+'){if(k<MAX_COPIAS)ED.l.push(c)}else if(k)ED.l.splice(ED.l.indexOf(c),1);ED.msg='';return edDraw()}
+  if(b.id==='dg'){const nm=(ED.dn||'').trim();if(!nm)ED.msg='Pon un nombre';else{DK[nm]=ED.l.join(',');ED.nm=ED.dn=nm;saveDK();ED.msg='Guardado ✓'}return edDraw()}
+  if(b.id==='dr'){DK[ED.nm]=DK0[ED.nm];saveDK();return editor(ED.nm)}
+  if(b.id==='de'){delete DK[ED.nm];saveDK();return editor()}
+  if(b.id==='dv')setup()}}
+// ===== INTERFAZ =====
+const fx=k=>{const t=G.seen&&G.seen.get(k);return G.seen&&(t===undefined||Date.now()-t<400)?' pop':''},fd=k=>{const t=G.seen&&G.seen.get(k);return t===undefined?'':` style="animation-delay:-${Date.now()-t}ms"`};
+const Z=p=>`<div class="zs"><div class="z" data-a="zn">Cem<b>${p.g.length}</b></div><div class="z" data-a="zn">Fuera<b>${p.x.length}</b></div></div>`,D=p=>`<div class="zs"><div class="z" data-a="zn">Mazo<b>${p.deck.length}</b></div></div>`,M=p=>`<div class="row mg">${[0,1,2].map(k=>p.mz[k]?`<div class="c ${p.mz[k].k} sm${fx('z'+p.mz[k].u)}"${fd('z'+p.mz[k].u)}>${imgTag(p.mz[k].n)}</div>`:'<div class="sl"></div>').join('')}</div>`;
+let MUTE=false,AC,IP;const snd=(f,d,v)=>{try{if(doc&&navigator.vibrate&&v)navigator.vibrate(v);if(MUTE||!doc)return;AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}};
+function tut(){panel('<b>Cómo jugar</b><br>• Tu energía (200) es vida y recurso: pagar cartas la gasta, y a 0 pierdes.<br>• Robas 1 carta por turno. Empiezas con 5 en mano y el máximo es 7.<br>• Máximo 3 monstruos. Invócalos en Main 1 o 2 y ataca en Batalla (quien empieza no ataca en su primer turno).<br>• Las magias y respuestas que se juegan aparecen en la zona Magias de cada lado hasta el final del turno.<br>• Sacrificar un monstruo te devuelve su coste. Con 10 de energía puedes descartar cartas para ganar su coste.<br>• Toca una carta para elegirla y usa los botones de abajo. Toca Cem, Fuera o Mazo para ver las zonas.<br>')}
+const PH=['Robo','Espera','Main 1','Batalla','Main 2','Mant.','Final'];
+function tile(c,z,i){const f=z!=='h',cl='c '+c.k+(f&&c.pos==='d'?' dd':'')+(G.sel===c?' sel':'')+(G.fx===c.u?(c.o===G.v?' lgu':' lgd'):'')+fx(z+c.u)+(G.pk&&G.pk.L.includes(c)?' tg':'');
+ return `<div class="${cl}" data-z="${z}" data-i="${i}"${fd(z+c.u)}><div class="im">${imgTag(c.n)}</div><span class="card-label"><b class="nm">${c.n}</b><span class="st">${c.c}⚡${c.k==='m'?' '+(f?A(c)+'/'+Df(c):c.a+'/'+c.d):''}${f&&c.pos==='d'?' <u>DEF</u>':''}</span></span></div>`}
+function bar(i){const p=G.p[i],el=G.pt?Date.now()-G.pt[i]:1e9,cl=el<450?' '+G.pd[i]:'';return `<div class="bar${cl}" style="animation-delay:-${Math.min(el,450)}ms"><b>${p.nm}</b><div class="eb${p.e===10?' red':''}"><i style="width:${Math.min(100,p.e/2)}%"></i></div><b>${p.e}${p.tmp?'+'+p.tmp:''}⚡</b><span>${i!==G.v?'Mano '+p.hand.length:''}</span></div>`}
+function draw(){if(!doc||!G||!G.p)return;const V=G.v||0,h=G.p[V],o=G.p[1-V],s=G.sel,my=G.cur===V&&h.h&&!G.over&&!G.pk,main=my&&(G.ph===2||G.ph===4);let a='';
+ const B=(k,t,g)=>a+=`<button data-a="${k}"${g?' class="g"':''}>${t}</button>`;
+ if(G.pk)B('cx','Cancelar',1);else if(my){
+  if(s&&h.hand.includes(s)&&(s.k==='m'?main:main||G.ph===3&&s.k==='r'&&EV[s.n]==='x')&&can(V,s))B('play','Jugar');
+  if(s&&h.f.includes(s)){if(G.ph===3&&canAtk(s))B('atk','Atacar');if(main&&s.sm!==G.turn&&!s.pc)B('pos','Posición');B('sac','Sacrificar',1)}
+  if(main&&h.g.length)B('gy','Cementerio',1);if(h.e===10&&h.hand.some(c=>c.c))B('disc','Descartar',1);
+  B('ph',G.ph===2?'Batalla ▶':G.ph===3?'Main 2 ▶':'Fin de turno ▶',1);B('skip','Saltar fases ▶▶',1)}B('log','Registro',1);B('zn','Zonas',1);B('mu',MUTE?'🔇':'🔊',1);
+ $('app').innerHTML=bar(1-V)+`<div class="row oh">${o.hand.map(()=>`<div class="c b"><img src="${IMG_BACK}" alt="reverso" onerror="this.remove()"></div>`).join('')}</div><div class="pf">${Z(o)}<div class="ct">${M(o)}<div class="row f">${o.f.map((c,i)=>tile(c,'o',i)).join('')}</div></div>${D(o)}</div>
+ <div id="mid"><b>${PH[G.ph]}</b> · Turno ${G.turn} · ${G.over||'Último: '+(G.last?G.last.n:'-')}${G.nt?'<br><b style="color:#fc0">CPU · '+G.nt+'</b>':''}<br>${s?s.n+' ['+s.ty+(s.st?'/'+s.st:'')+'] '+s.x:''}<div id="log">${G.log.slice(-2).join('<br>')}</div></div>
+ ${bar(V)}<div class="pf">${Z(h)}<div class="ct"><div class="row f">${h.f.map((c,i)=>tile(c,'p',i)).join('')}</div>${M(h)}</div>${D(h)}</div><div class="row hd">${h.hand.map((c,i)=>tile(c,'h',i)).join('')}</div><div id="acts">${a}</div>`;
+ const ks=[...o.f.map(c=>'o'+c.u),...h.f.map(c=>'p'+c.u),...h.hand.map(c=>'h'+c.u),...o.mz.map(c=>'z'+c.u),...h.mz.map(c=>'z'+c.u)],now=Date.now(),nm=new Map();for(const k of ks)nm.set(k,G.seen&&G.seen.has(k)?G.seen.get(k):now);G.seen=nm;G.pt=G.pt||[0,0];G.pd=G.pd||['',''];
+ for(const i of[0,1]){const e=G.p[i].e;if(G.pe&&G.pe[i]!==e){G.pt[i]=now;G.pd[i]=e<G.pe[i]?'hit':'up'}}G.pe=[G.p[0].e,G.p[1].e]}
+const ACT={mu(){MUTE=!MUTE},cx(){const r=G.pk.r;G.pk=null;r(null)},
+ async play(){const c=G.sel;G.sel=null;if(c.k==='m'){const k=await modal(c.n,['Ataque','Defensa']);await sumH(G.cur,c,k?'d':'a')}else await playCard(G.cur,c)},
+ pos(){const c=G.sel;c.pos=c.pos==='a'?'d':'a';c.pc=1},
+ async sac(){const c=G.sel;if(await yn(G.cur,'¿Sacrificar '+c.n+' y recuperar '+c.c+' de energía?')){G.sel=null;sac(c);chk()}},
+ async atk(){const c=G.sel,q=G.p[1-G.cur];let t=null;if(q.f.length){log('Elige el objetivo');t=await pick(G.cur,m=>m.o===1-G.cur,'o');if(!t)return}G.sel=null;await atk(G.cur,c,t)},
+ async gy(){const p=G.p[G.cur],S=new Set();for(;;){const t=[...S].reduce((a,c)=>a+c.c,0),k=await modal('Cementerio · coste '+t+' · recuperas '+gain(t),p.g.map(c=>(S.has(c)?'✓ ':'')+c.n+' ('+c.c+')').concat(['Confirmar','Cerrar']));
+  if(k<p.g.length){const c=p.g[k];S.has(c)?S.delete(c):S.add(c)}else{if(k===p.g.length&&t>0){p.g=p.g.filter(c=>!S.has(c));p.x.push(...S);p.e+=gain(t);log('Recuperas '+gain(t)+' de energía')}return}}},
+ async disc(){const p=G.p[G.cur],L=p.hand.filter(c=>c.c),k=await modal('Descarta una carta (ganas su coste)',L.map(c=>c.n+' ('+c.c+')').concat(['Cancelar']));if(k<L.length){const c=L[k];p.hand=p.hand.filter(x=>x!==c);p.g.push(c);p.e+=c.c}},
+ async ph(){if(G.ph===3)await forced(G.cur);if(G.ph<4)G.ph++;else{G.sel=null;G.nx()}},
+ async skip(){await forced(G.cur);G.sel=null;G.nx()},
+ log(){panel('<div id="lg" style="max-height:60vh;overflow:auto;font-size:11px">'+G.log.join('<br>')+'</div>');$('lg').scrollTop=1e9},
+ zn(){const z=(t,a)=>'<b>'+t+' ('+a.length+')</b><br>'+(a.map(c=>c.n).join(', ')||'-')+'<br>';panel(z('Tu cementerio',G.p[G.v].g)+z('Cementerio rival',G.p[1-G.v].g)+z('Tu zona fuera del juego',G.p[G.v].x)+z('Zona fuera del juego rival',G.p[1-G.v].x))}};
+async function act(f){if(G.busy||G.over)return;G.busy=1;try{await f()}finally{G.busy=0;if(G.w&&!G.over)await seat(G.cur);draw()}}
+function setup(){document.body.classList.remove('ded');G=null;$('app').onclick=null;const o=Object.keys(DK).map(d=>`<option>${d}</option>`).join('');$('app').innerHTML='<div id="start-screen"><div><h2>Plastic Island</h2>Modo<select id="sm"><option value=1>1 jugador vs CPU</option><option value=2>2 jugadores (mismo celular)</option></select><span id="t0">Tu mazo</span><select id="s0">'+o+'</select><span id="t1">Mazo de la CPU</span><select id="s1">'+o+'</select><span id="tl">Dificultad</span><select id="sl"><option value=1>Fácil</option><option value=2 selected>Normal</option><option value=3>Difícil</option></select><br><button id="go">Empezar</button> <button id="bed" class="g">Editar decks</button> <button id="inst" class="g" style="display:none">Instalar app</button></div></div>';
+$('sm').onchange=()=>{const t=$('sm').value==2;$('t0').textContent=t?'Mazo del jugador 1':'Tu mazo';$('t1').textContent=t?'Mazo del jugador 2':'Mazo de la CPU';$('tl').style.display=$('sl').style.display=t?'none':''};
+$('go').onclick=()=>newGame($('s0').value,$('s1').value,+$('sl').value,true,$('sm').value==2);$('bed').onclick=()=>editor();$('inst').onclick=()=>IP&&IP.prompt();if(IP)$('inst').style.display=''}
+if(doc){document.addEventListener('click',e=>{const t=e.target.closest('[data-z],[data-a]');if(!t||!G||!G.p)return;if(t.dataset.a){act(ACT[t.dataset.a]);return}
+ const z=t.dataset.z,i=+t.dataset.i,c=z==='h'?G.p[G.v].hand[i]:z==='p'?G.p[G.v].f[i]:G.p[1-G.v].f[i];if(!c)return;if(G.pk&&G.pk.L.includes(c)){const r=G.pk.r;G.pk=null;r(c);return}G.sel=c;draw()});setup()}
+if(doc)addEventListener('beforeinstallprompt',e=>{e.preventDefault();IP=e;const b=$('inst');if(b)b.style.display=''});
+if(doc&&'serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+if(typeof module!=='undefined')module.exports={newGame,get G(){return G}};
+</script></body></html>
